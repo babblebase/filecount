@@ -1,0 +1,18 @@
+[package]
+name = "file-count"
+authors = ["Mathijs Sonnemans <mathijs@tech-mason.com>"]
+version = "0.1.0"
+edition = "2021"
+keywords = ["translation", "analyis", "tmx", "file", "word", "count"]
+categories = ["localization", "internationalization", "text-processing"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+unicode-segmentation = "1.10.0"
+roxmltree = "0.15.0"
+zip = "0.6.2"
+serde = { version = "1.0.145", features = ["derive"] }
+derive_more = "0.99.17"
+infer = "0.3"
+serde_json = "1.0.85"
