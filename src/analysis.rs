@@ -58,26 +58,26 @@ pub struct Analysis {
 /// let hashments = filecount::segmentation::hashment_many(texts, &UnicodeRules);
 /// let analysis = analyze(hashments, Some(&mem));
 /// ```
-pub fn analyze(hashments: Vec<Hashment>, memory: Option<&HashedMemory>) -> Analysis {
+pub fn analyze(hashments: &Vec<Hashment>, memory: &Option<HashedMemory>) -> Analysis {
     let mut repetition_memory = HashedMemory::new();
     let mut total = Counts::default();
     let mut repetitions = Counts::default();
     let mut matches = Counts::default();
 
     for hashment in hashments {
-        total += Counts::from(&hashment);
+        total += Counts::from(hashment);
 
         match memory {
             Some(m) => {
                 if m.contains_hash(&hashment.hash) {
-                    matches += Counts::from(&hashment);
+                    matches += Counts::from(hashment);
                 }
             }
             None => ()
         }
         
         if repetition_memory.contains_hash(&hashment.hash) {
-            repetitions += Counts::from(&hashment);
+            repetitions += Counts::from(hashment);
         }
 
         repetition_memory.add_hash(hashment.hash);
