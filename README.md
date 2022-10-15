@@ -1,7 +1,9 @@
-# Filecount
+# 🧛 Filecount
 Filecount is a modern high-performance open source file analysis library for automating localization tasks. It enables you to add file analysis functionality to your projects while maintaining a lot of customizability and extensibility. The hashment algorithm will always ensure optimal analysis performance.
 
 Counting words is [a notoriously difficult problem](https://thehappybeavers.com/blog/why-word-count-differ-programs/) as it is really hard to define rules that give an "accurate" word count for every language. This means that many different text editing programs and CAT tools give different word counts for the same text! Filecount's philosophy is to be **fast and accurate enough**. Because for the purpose of having a fast file analysis it is often fine to be close enough to an accurate count.
+
+If you want to see Filecount in action then visit the website: [Filecount.io](https://filecount.io/)
 
 ## Example
 ```rust
@@ -35,9 +37,9 @@ fn main() {
     let mut buffer = Vec::new();
     file.read_to_end(&mut buffer).unwrap();  
 
-    let texts = extract(buffer, Some(&path), ExtractionRules::default()).unwrap();
+    let texts = extract(buffer, &path, ExtractionRules::default()).unwrap();
     let hashments = hashment_many(texts, &UnicodeRules);
-    let analysis = analyze(hashments, Some(&memory));
+    let analysis = analyze(hashments, &memory);
     println!("{:?}", analysis);       
 }
 ```
@@ -68,8 +70,18 @@ to your `Cargo.toml`:
 filecount = "0.1.0"
 ```
 
+## Supported file formats
+- docx
+- pptx
+- xlsx
+- json
+- xml
+- txt
+- xliff
+
 ## Planned features
-- Supporting many more default filetypes (all pull requests are welcome)
+- Supporting many more default filetypes (including html, doc, pdf, po, etc.) (all pull requests are welcome)
+- In context matches (although different CAT tools use different definitions of 'in context')
 - Adding seconds and minutes to analysis outputs for audiovisual files (relevant for subtitling related tasks)
 - .srx based default segmentation support
 - .xliff based .tmx and hashed memory management (using .xliff files to populate .tmx)

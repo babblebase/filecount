@@ -5,8 +5,9 @@ use std::error::Error;
 use std::str::from_utf8;
 use std::fmt;
 
+/// Thrown when parsing a .tmx file fails
 #[derive(Debug, Clone)]
-struct MemoryParseError(String);
+pub struct MemoryParseError(String);
 
 impl Error for MemoryParseError {}
 
@@ -54,7 +55,16 @@ impl HashedMemory {
         Self(BTreeSet::new())
     }
 
-    /// Create a HashedMemory from a .tmx file binary.
+    /// Merge a second memory into this memory
+    pub fn merge_with(&mut self, other: Self) -> () {
+        for hash in other.0.iter() {
+            if !self.0.contains(hash) {
+                self.0.insert(hash.clone());
+            }
+        }
+    }
+
+    /// Create a [HashedMemory](HashedMemory) from a .tmx file binary.
     /// # Examples
     /// ```
     /// let mut memfile = File::open("files/mem.tmx").unwrap();
@@ -64,7 +74,7 @@ impl HashedMemory {
     /// let memory = HashedMemory::from_tmx(&memciphertext).unwrap();
     /// ```
     /// # Errors
-    /// MemoryParseError: Can be caused by invalid .tmx files. F.e. because the tmx lacks a header or srclang.
+    /// [MemoryParseError](MemoryParseError): Can be caused by invalid .tmx files. F.e. because the tmx lacks a header or srclang.
     /// Other errors: When parsing the .tmx file failed for other reasons.
     pub fn from_tmx(buf: &[u8]) -> Result<Self, Box<dyn Error>> {
         let mut mem = Self::new();

@@ -1,7 +1,9 @@
 use crate::hash::hash;
+use serde::{Serialize, Deserialize};
 
 /// A hashment (hashed segment) represents the relevant information of an analyzed segment.
 /// We turn segments into hashments in order to perform a time and memory optimized TM and repetition analysis.
+#[derive(Serialize, Deserialize)]
 pub struct Hashment {
     pub hash: u64,
     pub words: usize,

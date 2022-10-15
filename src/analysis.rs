@@ -2,9 +2,10 @@ use crate::{memory::HashedMemory, segmentation::Hashment};
 use core::convert::From;
 use derive_more::{Add, AddAssign};
 use std::fmt::Debug;
+use serde::{Serialize, Deserialize};
 
 /// Primitive struct to encapsulate the different analysis results.
-#[derive(Default, Add, AddAssign, Debug)]
+#[derive(Default, Add, AddAssign, Debug, Serialize, Deserialize)]
 pub struct Counts {
     /// The amount of analyzed segments
     pub segments: usize,
@@ -27,7 +28,7 @@ impl From<&Hashment> for Counts {
 }
 
 /// Wrapper around the different elements common in a translation analysis
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Analysis {    
     /// The plain total counts. Not taking repetitions or matches into account.
     pub total: Counts,
@@ -41,7 +42,19 @@ pub struct Analysis {
     pub matches: Counts
 }
 
-/// Given hashments and an optional hashed translation memory, this function will perform the final analysis.
+impl Analysis {
+
+    /// Default constructor for analyses
+    pub fn new() -> Analysis {
+        Analysis { 
+            total: Counts { segments: 0, words: 0, characters: 0 }, 
+            repetitions: Counts { segments: 0, words: 0, characters: 0 },  
+            matches: Counts { segments: 0, words: 0, characters: 0 },  
+        }
+    }
+}
+
+/// Given [hashments](Hashment) and an optional [hashed translation](HashedMemory) memory, this function will perform the final analysis.
 /// # Example
 /// ```
 /// let mut memfile = File::open("files/mem.tmx").unwrap();
@@ -54,11 +67,11 @@ pub struct Analysis {
 /// let mut ciphertext = Vec::new();
 /// file.read_to_end(&mut ciphertext).unwrap();  
 /// 
-/// let texts = extract(ciphertext, Some(&path), ExtractionRules::default()).unwrap();
+/// let texts = extract(ciphertext, &path, ExtractionRules::default()).unwrap();
 /// let hashments = filecount::segmentation::hashment_many(texts, &UnicodeRules);
-/// let analysis = analyze(hashments, Some(&mem));
+/// let analysis = analyze(hashments, &mem);
 /// ```
-pub fn analyze(hashments: &Vec<Hashment>, memory: &Option<HashedMemory>) -> Analysis {
+pub fn analyze(hashments: &Vec<Hashment>, memory: &HashedMemory) -> Analysis {
     let mut repetition_memory = HashedMemory::new();
     let mut total = Counts::default();
     let mut repetitions = Counts::default();
@@ -67,13 +80,8 @@ pub fn analyze(hashments: &Vec<Hashment>, memory: &Option<HashedMemory>) -> Anal
     for hashment in hashments {
         total += Counts::from(hashment);
 
-        match memory {
-            Some(m) => {
-                if m.contains_hash(&hashment.hash) {
-                    matches += Counts::from(hashment);
-                }
-            }
-            None => ()
+        if memory.contains_hash(&hashment.hash) {
+            matches += Counts::from(hashment);
         }
         
         if repetition_memory.contains_hash(&hashment.hash) {
