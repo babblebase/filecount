@@ -1,5 +1,5 @@
 # 🧛 Filecount
-[![Latest Version]][https://crates.io/crates/filecount]
+![crates.io](https://img.shields.io/crates/v/filecount.svg)
 Filecount is a modern high-performance open source file analysis library for automating localization tasks. It enables you to add file analysis functionality to your projects while maintaining a lot of customizability and extensibility. The hashment algorithm will always ensure optimal analysis performance.
 
 Counting words is [a notoriously difficult problem](https://thehappybeavers.com/blog/why-word-count-differ-programs/) as it is really hard to define rules that give an "accurate" word count for every language. This means that many different text editing programs and CAT tools give different word counts for the same text! Filecount's philosophy is to be **fast and accurate enough**. Because for the purpose of having a fast file analysis it is often fine to be close enough to an accurate count.
