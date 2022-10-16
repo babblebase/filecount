@@ -37,10 +37,7 @@ fn extract_text_from_json_value(v: &Value) -> Vec<String> {
 
 impl Extract for Json {
     fn can_extract(&self, _buf: &[u8], extension: Option<&str>) -> bool {
-        match extension {
-            Some(x) => x == "json",
-            None => false,
-        }
+        extension == Some("json")
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {       

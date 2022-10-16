@@ -5,8 +5,8 @@ use std::str::from_utf8;
 pub struct Xml;
 
 impl Extract for Xml {
-    fn can_extract(&self, buf: &[u8], _extension: Option<&str>) -> bool {
-        infer::text::is_xml(buf)
+    fn can_extract(&self, buf: &[u8], extension: Option<&str>) -> bool {
+        extension == Some("xml") || infer::text::is_xml(buf)
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {

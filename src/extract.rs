@@ -4,7 +4,7 @@ use std::fmt;
 use std::path::Path;
 use std::ffi::OsStr;
 
-use crate::default_extractors::{txt,xml,docx,json,pptx,xlsx,xliff};
+use crate::default_extractors::{txt,xml,docx,json,pptx,xlsx,xliff,html};
 
 /// Thrown when parsing a file fails
 #[derive(Debug)]
@@ -58,6 +58,7 @@ impl Default for ExtractionRules {
         new.add(Box::new(json::Json));
         new.add(Box::new(pptx::Pptx));
         new.add(Box::new(xlsx::Xlsx));
+        new.add(Box::new(html::Html));
         new
     }
 }

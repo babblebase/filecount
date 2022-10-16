@@ -80,6 +80,8 @@ filecount = "0.1.0"
 - xml
 - txt
 - xliff
+- md
+- html(x)
 
 ## Planned features
 - Supporting many more default filetypes (including html, doc, pdf, po, etc.) (all pull requests are welcome)

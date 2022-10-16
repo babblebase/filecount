@@ -6,10 +6,7 @@ pub struct Xliff;
 
 impl Extract for Xliff {
     fn can_extract(&self, _buf: &[u8], extension: Option<&str>) -> bool {
-        match extension {
-            Some(x) => x == "xlf" || x == "xliff",
-            None => false,
-        }
+        extension == Some("xlf") || extension == Some("xliff")
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {

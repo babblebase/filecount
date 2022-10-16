@@ -4,8 +4,8 @@ use crate::{extract::Extract, zip_extensions::read_file_from_zip};
 pub struct Docx;
 
 impl Extract for Docx {
-    fn can_extract(&self, buf: &[u8], _extension: Option<&str>) -> bool {
-        infer::doc::is_docx(buf)
+    fn can_extract(&self, buf: &[u8], extension: Option<&str>) -> bool {
+        extension == Some("docx") || infer::doc::is_docx(buf)
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {

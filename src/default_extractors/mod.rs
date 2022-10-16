@@ -5,3 +5,4 @@ pub mod json;
 pub mod pptx;
 pub mod xlsx;
 pub mod xliff;
+pub mod html;

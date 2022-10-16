@@ -6,10 +6,7 @@ pub struct Txt;
 
 impl Extract for Txt {
     fn can_extract(&self, _buf: &[u8], extension: Option<&str>) -> bool {
-        match extension {
-            Some(x) => x == "txt",
-            None => false,
-        }
+        extension == Some("txt") || extension == Some("md")
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {

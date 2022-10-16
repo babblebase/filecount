@@ -4,8 +4,8 @@ use crate::{extract::Extract, zip_extensions::read_file_from_zip, xml_extensions
 pub struct Xlsx;
 
 impl Extract for Xlsx {
-    fn can_extract(&self, buf: &[u8], _extension: Option<&str>) -> bool {
-        infer::doc::is_xlsx(buf)
+    fn can_extract(&self, buf: &[u8], extension: Option<&str>) -> bool {
+        extension == Some("xlsx") || infer::doc::is_xlsx(buf)
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {

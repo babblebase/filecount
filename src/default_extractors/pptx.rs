@@ -4,8 +4,8 @@ use crate::{extract::Extract, zip_extensions::read_files_from_zip, xml_extension
 pub struct Pptx;
 
 impl Extract for Pptx {
-    fn can_extract(&self, buf: &[u8], _extension: Option<&str>) -> bool {
-        infer::doc::is_pptx(buf)
+    fn can_extract(&self, buf: &[u8], extension: Option<&str>) -> bool {
+        extension == Some("pptx") || infer::doc::is_pptx(buf)
     }
 
     fn extract(&self, buf: &[u8]) -> Result<Vec<String>, Box<dyn Error>> {
