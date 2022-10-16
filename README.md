@@ -84,7 +84,7 @@ filecount = "0.1.0"
 - html(x)
 
 ## Planned features
-- Supporting many more default filetypes (including html, doc, pdf, po, etc.) (all pull requests are welcome)
+- Supporting many more default filetypes (including srt, doc, pdf, po, etc.) (all pull requests are welcome)
 - In context matches (although different CAT tools use different definitions of 'in context')
 - Adding seconds and minutes to analysis outputs for audiovisual files (relevant for subtitling related tasks)
 - .srx based default segmentation support
