@@ -1,16 +1,19 @@
 [![crates.io](https://img.shields.io/crates/v/filecount.svg)](https://crates.io/crates/filecount)
 
 # 🧛 Filecount
-Filecount is a modern high-performance open source file analysis library for automating localization tasks. It enables you to add file analysis functionality to your projects while maintaining a lot of customizability and extensibility. The hashment algorithm will always ensure optimal analysis performance.
+
+Filecount is a high-performance open source file analysis library for automating localization tasks. It enables you to add file analysis functionality to your projects while maintaining a lot of customizability and extensibility. The goal is to always ensure optimal analysis performance.
 
 Counting words is [a notoriously difficult problem](https://thehappybeavers.com/blog/why-word-count-differ-programs/) as it is really hard to define rules that give an "accurate" word count for every language. This means that many different text editing programs and CAT tools give different word counts for the same text! Filecount's philosophy is to be **fast and accurate enough**. Because for the purpose of having a fast file analysis it is often fine to be close enough to an accurate count.
 
 If you want to see Filecount in action then visit the website: [Filecount.io](https://filecount.io/)
 
 ## Documentation
+
 View the documentation on [doc.rs](https://docs.rs/filecount/0.1.0/filecount/)
 
 ## Example
+
 ```rust
 use std::env;
 use std::io::Read;
@@ -34,23 +37,25 @@ fn main() {
 
     let mut memfile = File::open("memory.tmx").unwrap();
     let mut memfile_buffer = Vec::new();
-    memfile.read_to_end(&mut memfile_buffer).unwrap();  
+    memfile.read_to_end(&mut memfile_buffer).unwrap();
 
     let memory = HashedMemory::from_tmx(&memfile_buffer).unwrap();
 
     let mut file = File::open(&path).unwrap();
     let mut buffer = Vec::new();
-    file.read_to_end(&mut buffer).unwrap();  
+    file.read_to_end(&mut buffer).unwrap();
 
     let texts = extract(buffer, &path, ExtractionRules::default()).unwrap();
     let hashments = hashment_many(texts, &UnicodeRules);
     let analysis = analyze(hashments, &memory);
-    println!("{:?}", analysis);       
+    println!("{:?}", analysis);
 }
 ```
 
 ## Usage
+
 Filecount uses 3 basic principles, each represented by their respective function:
+
 - extract
 - hashment
 - analyze
@@ -64,9 +69,11 @@ The analyze function analyzes these hashments given an (optional) translation me
 Filecount deliberatly splits this functionality for optimal user control over the usage of these functions.
 
 ## Theoretical specifications
-By storing segments in hashed format (see hashment in the documentation) in a binary tree, lookups will have a complexity of O(log N) where N is the size of the memory. This way a full file analysis can be performed in O(N log N) with N being the amount of segments in the file. Filecount deliberatly doesn't calculate fuzzy matches (50% TM match, 80% TM match, etc.) as these matches usually have less value to the file processor and this will ensure a high-performance operation. 
+
+By storing segments in hashed format (see hashment in the documentation) in a binary tree, exact match lookups will have a complexity of O(log N) where N is the size of the memory. This way a full file analysis can be performed in O(N log N) with N being the amount of segments in the file. The aim is to also integrate a vector space (database) so that we can calculate close matches in at most O(N log N) time as well.
 
 ## Installation
+
 Use this package in your project by adding the following
 to your `Cargo.toml`:
 
@@ -76,6 +83,7 @@ filecount = "0.1.0"
 ```
 
 ## Supported file formats
+
 - docx
 - pptx
 - xlsx
@@ -87,6 +95,7 @@ filecount = "0.1.0"
 - html(x)
 
 ## Planned features
+
 - Supporting many more default filetypes (including srt, doc, pdf, po, etc.) (all pull requests are welcome)
 - In context matches (although different CAT tools use different definitions of 'in context')
 - Adding seconds and minutes to analysis outputs for audiovisual files (relevant for subtitling related tasks)
